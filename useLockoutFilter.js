@@ -11,7 +11,7 @@ export default function useLockoutFilter(entries, setFilteredEntries) {
     (category) => {
       if (lockedCategories.includes(category)) return;
 
-      let currentIsfilterActive = isFilterActive;
+      let newIsfilterActive = isFilterActive;
       let newCategories = [];
 
       if (selectedCategories.includes(category)) {
@@ -23,30 +23,29 @@ export default function useLockoutFilter(entries, setFilteredEntries) {
       setSelectedCategories(newCategories);
 
       if (newCategories.length === 0) {
-        setIsFilterActive(false);
-        currentIsfilterActive = false;
+        newIsfilterActive = false;
+
         setLockedCategories([]);
       } else {
-        setIsFilterActive(true);
-        currentIsfilterActive = true;
+        newIsfilterActive = true;
 
         const unlockedCategories = new Set();
-        for (let i = 0; i < entries.length; i++) {
-          if (includesAll(entries[i].categories, newCategories)) {
-            entries[i].categories.forEach((c) => unlockedCategories.add(c));
+        entries.forEach((e) => {
+          if (includesAll(e.categories, newCategories)) {
+            e.categories.forEach((c) => unlockedCategories.add(c));
           }
-        }
+        });
 
         setLockedCategories(
           categories.filter((c) => !unlockedCategories.has(c))
         );
       }
 
+      setIsFilterActive(newIsfilterActive);
+
       setFilteredEntries(
         entries.filter((e) =>
-          currentIsfilterActive
-            ? includesAll(e.categories, newCategories)
-            : true
+          newIsfilterActive ? includesAll(e.categories, newCategories) : true
         )
       );
     },
