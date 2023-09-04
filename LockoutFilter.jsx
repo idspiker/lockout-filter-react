@@ -1,10 +1,16 @@
 import useLockoutFilter from './useLockoutFilter';
 
-export default function LockoutFilter({ entries, setFilteredEntries }) {
+export default function LockoutFilter({
+  entries,
+  setFilteredEntries,
+  unselectedStyles,
+  selectedStyles,
+  lockedStyles,
+}) {
   const [categories, selectedCategories, lockedCategories, toggleSelection] =
     useLockoutFilter(entries, setFilteredEntries);
 
-  const normalColor = 'rgb(24, 24, 24)';
+  const unselectedColor = 'rgb(24, 24, 24)';
   const lockedColor = 'rgb(180, 180, 180)';
   const selectedColor = 'rgb(246, 99, 92)';
 
@@ -36,19 +42,24 @@ export default function LockoutFilter({ entries, setFilteredEntries }) {
               ? lockedColor
               : selectedCategories.includes(c)
               ? selectedColor
-              : normalColor,
+              : unselectedColor,
             border:
               '2px solid ' +
               (lockedCategories.includes(c)
                 ? lockedColor
                 : selectedCategories.includes(c)
                 ? selectedColor
-                : normalColor),
+                : unselectedColor),
             padding: '0.5rem',
             borderRadius: '10px',
             transitionProperty: 'border, color',
             transitionDuration: '0.25s',
             cursor: lockedCategories.includes(c) ? 'not-allowed' : 'pointer',
+            ...(lockedCategories.includes(c)
+              ? lockedStyles
+              : selectedCategories.includes(c)
+              ? selectedStyles
+              : unselectedStyles),
           }}
           onClick={() => toggleSelection(c)}
           key={currentKey++}
