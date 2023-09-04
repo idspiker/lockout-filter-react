@@ -1,49 +1,57 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 export default function useLockoutFilter(entries, setFilteredEntries) {
+  const categories = useMemo(() => getCategoryData(entries), [entries]);
+
   const [isFilterActive, setIsFilterActive] = useState(false);
-  const [categories, setCategories] = useState(getCategoryData(entries));
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [lockedCategories, setLockedCategories] = useState([]);
 
-  function toggleSelection(category) {
-    if (lockedCategories.includes(category)) return;
+  const toggleSelection = useCallback(
+    (category) => {
+      if (lockedCategories.includes(category)) return;
 
-    let currentIsfilterActive = isFilterActive;
-    let newCategories = [];
+      let currentIsfilterActive = isFilterActive;
+      let newCategories = [];
 
-    if (selectedCategories.includes(category)) {
-      newCategories = selectedCategories.filter((c) => c !== category);
-    } else {
-      newCategories = [...selectedCategories, category];
-    }
-
-    setSelectedCategories(newCategories);
-
-    if (newCategories.length === 0) {
-      setIsFilterActive(false);
-      currentIsfilterActive = false;
-      setLockedCategories([]);
-    } else {
-      setIsFilterActive(true);
-      currentIsfilterActive = true;
-
-      const unlockedCategories = new Set();
-      for (let i = 0; i < entries.length; i++) {
-        if (includesAll(entries[i].categories, newCategories)) {
-          entries[i].categories.forEach((c) => unlockedCategories.add(c));
-        }
+      if (selectedCategories.includes(category)) {
+        newCategories = selectedCategories.filter((c) => c !== category);
+      } else {
+        newCategories = [...selectedCategories, category];
       }
 
-      setLockedCategories(categories.filter((c) => !unlockedCategories.has(c)));
-    }
+      setSelectedCategories(newCategories);
 
-    setFilteredEntries(
-      entries.filter((e) =>
-        currentIsfilterActive ? includesAll(e.categories, newCategories) : true
-      )
-    );
-  }
+      if (newCategories.length === 0) {
+        setIsFilterActive(false);
+        currentIsfilterActive = false;
+        setLockedCategories([]);
+      } else {
+        setIsFilterActive(true);
+        currentIsfilterActive = true;
+
+        const unlockedCategories = new Set();
+        for (let i = 0; i < entries.length; i++) {
+          if (includesAll(entries[i].categories, newCategories)) {
+            entries[i].categories.forEach((c) => unlockedCategories.add(c));
+          }
+        }
+
+        setLockedCategories(
+          categories.filter((c) => !unlockedCategories.has(c))
+        );
+      }
+
+      setFilteredEntries(
+        entries.filter((e) =>
+          currentIsfilterActive
+            ? includesAll(e.categories, newCategories)
+            : true
+        )
+      );
+    },
+    [categories, isFilterActive, selectedCategories, lockedCategories]
+  );
 
   return [categories, selectedCategories, lockedCategories, toggleSelection];
 }
