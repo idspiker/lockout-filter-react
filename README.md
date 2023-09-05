@@ -30,3 +30,30 @@ Now you can use the LockoutFilter component, passing the toFilter array into the
 ```
 
 The LockoutFilter component will automatically detect categories to sort by, and will update your filtered array based on the filter selections using the setFiltered function that you passed it.
+
+### Component use example
+```
+import LockoutFilter from 'insert path here';
+
+export default function Example() {
+  const toFilter = [
+    {
+      name: 'Chess Engine',
+      categories: ['Python', 'Pygame']
+    },
+    {
+      name: 'Webscraper',
+      categories: ['Python', 'Beautiful Soup', 'SQL']
+    }
+  ];
+
+  const [filtered, setFiltered] = useState(toFilter);
+
+  return (
+    <>
+      <LockoutFilter entries={toFilter} setFilteredEntries={setFiltered} />
+      <div>filtered.map((e, i) => <div key={i}>{e.name}</div>)</div>
+    </>
+  );
+}
+```
