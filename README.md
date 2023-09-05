@@ -52,7 +52,7 @@ export default function Example() {
   return (
     <>
       <LockoutFilter entries={toFilter} setFilteredEntries={setFiltered} />
-      <div>filtered.map((e, i) => <div key={i}>{e.name}</div>)</div>
+      <div>{filtered.map((e, i) => <div key={i}>{e.name}</div>)}</div>
     </>
   );
 }
