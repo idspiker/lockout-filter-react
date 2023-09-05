@@ -1,7 +1,7 @@
 # react-lockout-filter
 A custom hook and component to provide lockout filter functionality in React.js.
 
-## Use
+## Component Use
 Begin by pulling the LockoutFilter.jsx and useLockoutFilter.jsx into your project and importing them into your file.
 
 Next, create the array of data that you would like to filter. It must be an array of nested objects, each with a "categories" attribute that stores an array of strings. These categories are what your array will be filtered by.
