@@ -33,7 +33,7 @@ The LockoutFilter component will automatically detect categories to sort by, and
 
 ### Component use example
 ```
-import LockoutFilter from 'insert path here';
+import LockoutFilter from './LockoutFilter';
 
 export default function Example() {
   const toFilter = [
