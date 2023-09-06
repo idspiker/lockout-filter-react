@@ -93,3 +93,11 @@ The hook returns four values in an array, which can be destructured. These value
 const [categories, selectedCategories, lockedCategories, toggleSelection] =
     useLockoutFilter(items, setFiltered);
 ```
+
+Use the toggleSelection function to toggle the filtering of categories by passing the category string to it.
+
+```
+toggleSelection('JavaScript');
+```
+
+The other return values can be used in your components to indicate what categories are available for filtering, locked, and already selected.
