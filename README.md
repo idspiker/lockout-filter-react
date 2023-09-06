@@ -91,5 +91,5 @@ The hook returns four values in an array, which can be destructured. These value
 
 ```
 const [categories, selectedCategories, lockedCategories, toggleSelection] =
-    useLockoutFilter(entries, setFilteredEntries);
+    useLockoutFilter(items, setFiltered);
 ```
