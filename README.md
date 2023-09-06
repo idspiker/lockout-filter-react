@@ -81,9 +81,9 @@ Pass the items array and the setFiltered function to the useLockoutFilter hook.
 
 The hook returns four values in an array, which can be destructured. These values are categories, selectedCategories, lockedCategories, and toggleSelection.
 
-> categories: An array containing all of the categories found in the "categories" attributes of the objects in the items array passed to it. This array does not contain duplicates.
-> selectedCategories: An array containing all of the categories that are actively being filtered by.
-> lockedCategories: An array containing all of the categories that are locked; they cannot be filtered by. A category becomes locked when the other selected categories do not exist in a project with said category.
+> categories: An array containing all of the categories found in the "categories" attributes of the objects in the items array passed to it. This array does not contain duplicates.\n
+> selectedCategories: An array containing all of the categories that are actively being filtered by.\n
+> lockedCategories: An array containing all of the categories that are locked; they cannot be filtered by. A category becomes locked when the other selected categories do not exist in a project with said category.\n
 > toggleSelection: A function that toggles the selection status of the categoty (string) passed to it. This function will change the values of the selectedCategories and lockedCategories when run.
 
 ```
